@@ -1,0 +1,5 @@
+defer = tetap jalan walau error (mengabaikan error)
+panic = program berhenti (tapi defer tetap jalan)
+recover = menangkap data panic, proses panic akan di hentikan sehingga program program tetap berjalan
+
+kalau di bahas pemrograman lain mungkin bisa di samakan dengan try and cat
