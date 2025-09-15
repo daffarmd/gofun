@@ -1,0 +1,189 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "PDAM APPLICATION",
+    "version": "1.0"
+  },    
+  "servers": [
+    {
+      "url": "https://10.8.1.9:4041/"
+    }
+  ],
+  "paths": {
+    "/download-jadwal-detail": {
+      "get": {
+        "summary": "Get Download Jadwal RBM",
+        "description": "Mengambil daftar jadwal RBM berdasarkan koderbm dan blth.",
+        "parameters": [
+          {
+            "name": "koderbm",
+            "in": "dari mb",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "blth",
+            "in": "dari mb",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idpetugas",
+            "in": "dari session",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar jadwal RBM",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ResultDownloadJadwalDetail"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/info-pelanggan": {
+      "get": {
+        "summary": "Get Info Pelanggan",
+        "description": "Mengambil data info pelanggan.",
+        "responses": {
+          "200": {
+            "description": "info-pelanggan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "datapelanggan": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ResultDataPelanggan"
+                      }
+                    },
+                    "datatagihan": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ResultDataTagihan"
+                      }
+                    },
+                    "riwayatpengaduan": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ResultRiwayatPengaduan"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ResultDownloadJadwalDetail": {
+        "type": "object",
+        "properties": {
+          "koderbm": {
+            "type": "string"
+          },
+          "blth": {
+            "type": "string"
+          },
+          "koderm_urut": {
+            "type": "integer"
+          },
+          "nosal": {
+            "type": "string"
+          },
+          "nama": {
+            "type": "string"
+          },
+          "alamat": {
+            "type": "string"
+          },
+          "kecamatan": {
+            "type": "string"
+          },
+          "kelurahan": {
+            "type": "string"
+          },
+          "rt": {
+            "type": "string"
+          },
+          "rw": {
+            "type": "string"
+          },
+          "nohp": {
+            "type": "string"
+          },
+          "tarif": {
+            "type": "string"
+          },
+          "kodewilayah": {
+            "type": "string"
+          },
+          "stanpakai_rata": {
+            "type": "integer"
+          },
+          "status_pelanggan": {
+            "type": "string"
+          },
+          "status_tunggakan": {
+            "type": "integer"
+          },
+          "status_pembaruan": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "koderbm",
+          "blth",
+          "koderm_urut",
+          "nosal",
+          "nama",
+          "alamat",
+          "kecamatan",
+          "kelurahan",
+          "rt",
+          "rw",
+          "nohp",
+          "tarif",
+          "kodewilayah",
+          "stanpakai_rata",
+          "status_pelanggan",
+          "status_tunggakan",
+          "status_pembaruan"
+        ]
+      },
+      "ResultDataPelanggan": {
+        "type": "object",
+        "properties": {
+          }
+        }
+      }
+    }
+  }
+
