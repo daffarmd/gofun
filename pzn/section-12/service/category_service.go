@@ -9,7 +9,7 @@ import (
 type CategoryService interface {
 	Save(ctx context.Context, request web.CategoryCreateRequest) web.CategoryResponse
 	Update(ctx context.Context, request web.CategoryCreateRequestUpdate) web.CategoryResponse
-	Delete(ctx context.Context, categoryId int)
-	FindById(ctx context.Context, categoryId int)
+	Delete(ctx context.Context, categoryID int)
+	FindById(ctx context.Context, categoryID int)
 	FindAll(ctx context.Context) []web.CategoryResponse
 }
