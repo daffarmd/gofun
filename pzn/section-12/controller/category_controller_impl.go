@@ -20,9 +20,6 @@ func (controller *CategoryControllerImpl) Create(writer http.ResponseWriter, req
 	err := decoder.Decode(&categoryCreateRequest)
 	helper.PanicIfError(err)
 
-	categoryResponse := controller.CategoryService.Save(ctx context.Context, request web.CategoryCreateRequest)
-	webResponse := web.CategoryCreateRequest{} 
-
 	panic("not implemented")
 }
 
