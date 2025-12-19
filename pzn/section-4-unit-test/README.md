@@ -91,3 +91,12 @@ go get github.com/stretchr/testify
 eksekusi unit test akan tetap dilanjutkan
 · Sedangkan jika kita menggunakan require, jika pengecekan gagal, maka require akan memanggil
 FailNow(), artinya eksekusi unit test tidak akan dilanjutkan
+
+```md
+> Referensi materi: Video 95
+```
+
+## Skip Test
+· Kadang dalam keadaan tertentu, kita ingin membatalkan eksekusi unit test
+· Di Go-Lang juga kita bisa membatalkan eksekusi unit test jika kita mau
+· Untuk membatalkan unit test kita bisa menggunakan function Skip()

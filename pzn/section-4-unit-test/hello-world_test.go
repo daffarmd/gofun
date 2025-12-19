@@ -2,11 +2,21 @@ package section4unittest
 
 import (
 	"fmt"
+	"runtime"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
+
+func TestSkip(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("Os tidak cocok")
+	}
+
+	result := HelloWorld("Bakrie")
+	assert.Equal(t, "Hello, Bambang!", result)
+}
 
 func TestHelloWorldAssert(t *testing.T) {
 	result := HelloWorld("Anis")
