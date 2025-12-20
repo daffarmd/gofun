@@ -100,3 +100,91 @@ FailNow(), artinya eksekusi unit test tidak akan dilanjutkan
 · Kadang dalam keadaan tertentu, kita ingin membatalkan eksekusi unit test
 · Di Go-Lang juga kita bisa membatalkan eksekusi unit test jika kita mau
 · Untuk membatalkan unit test kita bisa menggunakan function Skip()
+
+```md
+> Referensi materi: Video 96
+```
+
+## Before dan After Test
+· Biasanya dalam unit test, kadang kita ingin melakukan sesuatu sebelum dan setelah sebuah unit
+test dieksekusi
+· Jikalau kode yang kita lakukan sebelum dan setelah selalu sama antar unit test function, maka
+membuat manual di unit test function nya adalah hal yang membosankan dan terlalu banyak kode
+duplikat jadinya
+· Untungnya di Go-Lang terdapat fitur yang bernama testing.M
+Fitur ini bernama Main, dimana digunakan untuk mengatur eksekusi unit test, namun hal ini juga
+bisa kita gunakan untuk melakukan Before dan After di unit test
+
+## testing.M
+· Untuk mengatur ekeskusi unit test, kita cukup membuat sebuah function bernama TestMain
+dengan parameter testing.M
+· Jika terdapat function TestMain tersebut, maka secara otomatis Go-Lang akan mengeksekusi
+function ini tiap kali akan menjalankan unit test di sebuah package
+· Dengan ini kita bisa mengatur Before dan After unit test sesuai dengan yang kita mau
+· Ingat, function TestMain itu dieksekusi hanya sekali per Go-Lang package, bukan per tiap function
+unit test
+
+```md
+> Referensi materi: Video 97
+```
+## Sub Test
+. Go-Lang mendukung fitur pembuatan function unit test di dalam function unit test
+· Fitur ini memang sedikit aneh dan jarang sekali dimiliki di unit test di bahasa pemrograman yang
+lainnya
+· Untuk membuat sub test, kita bisa menggunakan function Run()
+
+## Menjalankan Hanya Sub Test
+· Kita sudah tahu jika ingin menjalankan sebuah unit test function, kita bisa gunakan perintah :
+go test -run TestNamaFunction
+· Jika kita ingin menjalankan hanya salah satu sub test, kita bisa gunakan perintah :
+go test -run TestNamaFunction/NamaSubTest
+. Atau untuk semua test semua sub test di semua function, kita bisa gunakan perintah :
+go test -run /NamaSubTest
+
+```md
+> Referensi materi: Video 98
+```
+
+## Table Test
+· Sebelumnya kita sudah belajar tentang sub test
+· Jika diperhatikan, sebenarnya dengan sub test, kita bisa membuat test secara dinamis
+· Dan fitur sub test ini, biasa digunaka oleh programmer Go-Lang untuk membuat test dengan
+konsep table test
+· Table test yaitu dimana kita menyediakan data beruba slice yang berisi parameter dan ekspektasi
+hasil dari unit test
+· Lalu slice tersebut kita iterasi menggunakan sub test
+
+```md
+> Referensi materi: Video 99
+```
+
+# Mock
+· Mock adalah object yang sudah kita program dengan ekspektasi tertentu sehingga ketika
+dipanggil, dia akan menghasilkan data yang sudah kita program diawal
+· Mock adalah salah satu teknik dalam unit testing, dimana kita bisa membuat mock object dari
+suatu object yang memang sulit untuk di testing
+· Misal kita ingin membuat unit test, namun ternyata ada kode program kita yang harus memanggil
+API Call ke third party service. Hal ini sangat sulit untuk di test, karena unit testing kita harus
+selalu memanggil third party service, dan belum tentu response nya sesuai dengan apa yang kita
+mau
+· Pada kasus seperti ini, cocok sekali untuk menggunakan mock object
+
+# Testify Mock
+· Untuk membuat mock object, tidak ada fitur bawaan Go-Lang, namun kita bisa menggunakan
+library testify yang sebelumnya kita gunakan untuk assertion
+· Testify mendukung pembuatan mock object, sehingga cocok untuk kita gunakan ketika ingin
+membuat mock object
+· Namun, perlu diperhatikan, jika desain kode program kita jelek, akan sulit untuk melakukan
+mocking, jadi pastikan kita melakukan pembuatan desain kode program kita dengan baik
+. Mari kita buat contoh kasus
+
+# Aplikasi Query Ke Database
+· Kita akan coba contoh kasus dengan membuat contoh aplikasi golang yang melakukan query ke
+database
+. Dimana kita akan buat layer Service sebagai business logic, dan layer Repository sebagai jembatan
+ke database
+· Agar kode kita mudah untuk di test, disarankan agar membuat kontrak berupa Interface
+
+# Urutan pembuatan mock
+Entity -> Repo -> RepoMock -> Service  
+
