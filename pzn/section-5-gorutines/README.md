@@ -104,4 +104,48 @@ Dalam Go Scheduler dikenal tiga komponen utama:
 * Untuk melakukan hal tersebut, kita bisa menggunakan select channel di Go-Lang
 * Dengan select channel, kita bisa memilih data tercepat dari beberapa channel, jika data datang secara bersamaan di beberapa channel, maka akan dipilih secara random
 
+# Default Select
+* Apa yang terjadi jika kita melakukan select terhadap channel yang ternyata tidak ada datanya?
+* Maka kita akan menunggu sampai data ada
+* Kadang mungkin kita ingin melakukan sesuatu jika misal semua channel tidak ada datanya ketika kita melakukan select channel
+* Dalam select, kita bisa menambahkan default, dimana ini akan dieksekusi jika memang di semua channel yang kita select tidak ada datanya
+
+# Masalah Dengan Goroutine
+* Saat kita menggunakan goroutine, dia tidak hanya berjalan secara concurrent, tapi bisa parallel juga, karena bisa ada beberapa thread yang berjalan secara parallel
+* Hal ini sangat berbahaya ketika kita melakukan manipulasi data variable yang sama oleh beberapa goroutine secara bersamaan
+* Hal ini bisa menyebabkan masalah yang namanya Race Condition
+
+# Mutex (Mutual Exclusion)
+* Untuk mengatasi masalah race condition tersebut, di Go-Lang terdapat sebuah struct bernama sync.Mutex
+* Mutex bisa digunakan untuk melakukan locking dan unlocking, dimana ketika kita melakukan locking terhadap mutex, maka tidak ada yang bisa melakukan locking lagi sampai kita melakukan unlock
+* Dengan demikian, jika ada beberapa goroutine melakukan lock terhadap Mutex, maka hanya 1 goroutine yang diperbolehkan, setelah goroutine tersebut melakukan unlock, baru goroutine selanjutnya diperbolehkan melakukan lock lagi
+* Ini sangat cocok sebagai solusi ketika ada masalah race condition yang sebelumnya kita hadapi
+
+# Deadlock
+* Hati-hati saat membuat aplikasi yang parallel atau concurrent, masalah yang sering kita hadapi adalah Deadlock
+* Deadlock adalah keadaan dimana sebuah proses goroutine saling menunggu lock sehingga tidak ada satupun goroutine yang bisa jalan
+* Sekarang kita coba simulasikan proses deadlock
+
+# WaitGroup
+* WaitGroup adalah fitur yang bisa digunakan untuk menunggu sebuah proses selesai dilakukan
+* Hal ini kadang diperlukan, misal kita ingin menjalankan beberapa proses menggunakan goroutine, tapi kita ingin semua proses selesai terlebih dahulu sebelum aplikasi kita selesai
+* Kasus seperti ini bisa menggunakan WaitGroup
+* Untuk menandai bahwa ada proses goroutine, kita bisa menggunakan method Add(int), setelah proses goroutine selesai, kita bisa gunakan method Done()
+* Untuk menunggu semua proses selesai, kita bisa menggunakan method Wait()
+
+# Once
+* Once adalah fitur di Go-Lang yang bisa kita gunakan untuk memastikan bahwa sebuah function di eksekusi hanya sekali
+* Jadi berapa banyak pun goroutine yang mengakses, bisa dipastikan bahwa goroutine yang pertama yang bisa mengeksekusi function nya
+* Goroutine yang lain akan di hiraukan, artinya function tidak akan dieksekusi lagi
+
+# Pool
+* Pool adalah implementasi design pattern bernama object pool pattern. 
+* Sederhananya, design pattern Pool ini digunakan untuk menyimpan data, selanjutnya untuk menggunakan datanya, kita bisa mengambil dari Pool, dan setelah selesai menggunakan datanya, kita bisa menyimpan kembali ke Pool nya
+* Implementasi Pool di Go-Lang ini sudah aman dari problem race condition
+
+
+
+
+
+
 

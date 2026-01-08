@@ -25,6 +25,7 @@ func TestChannel(t *testing.T) {
 }
 
 func GiveMeResponse(channel chan string) {
+	time.Sleep(2 * time.Second)
 	channel <- "Channel Here!"
 }
 
@@ -95,4 +96,60 @@ func TestRangeChannel(t *testing.T) {
 	}
 
 	fmt.Println("End")
+}
+
+func TestSelectChannel(t *testing.T) {
+	channel1 := make(chan string)
+	channel2 := make(chan string)
+	defer close(channel1)
+	defer close(channel2)
+
+	go GiveMeResponse(channel1)
+	go GiveMeResponse(channel2)
+
+	count := 0
+	for {
+		select {
+		case data := <-channel1:
+			fmt.Println("Channel 1", data)
+			count++
+		case data := <-channel2:
+			fmt.Println("Channel 2", data)
+			count++
+		}
+
+		if count == 2 {
+			break
+		}
+	}
+
+}
+
+func TestDefaultSelectChannel(t *testing.T) {
+	channel1 := make(chan string)
+	channel2 := make(chan string)
+	defer close(channel1)
+	defer close(channel2)
+
+	go GiveMeResponse(channel1)
+	go GiveMeResponse(channel2)
+
+	count := 0
+	for {
+		select {
+		case data := <-channel1:
+			fmt.Println("Channel 1", data)
+			count++
+		case data := <-channel2:
+			fmt.Println("Channel 2", data)
+			count++
+		default:
+			fmt.Println("Menunggu Data!")
+		}
+
+		if count == 2 {
+			break
+		}
+	}
+
 }
