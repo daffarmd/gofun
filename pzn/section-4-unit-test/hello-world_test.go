@@ -76,7 +76,7 @@ func TestSkip(t *testing.T) {
 }
 
 func TestHelloWorldAssert(t *testing.T) {
-	result := HelloWorld("Anis")
+	result := HelloWorld("Bambang")
 	assert.Equal(t, "Hello, Bambang!", result)
 
 	fmt.Println("Lanjut ke kode ini")

@@ -1,0 +1,32 @@
+package tests
+
+import (
+	"fmt"
+	"sync"
+	"testing"
+	"time"
+)
+
+func TestPool(t *testing.T) {
+	var pool = sync.Pool{
+		New: func() any {
+			return "New"
+		},
+	}
+
+	pool.Put("Muh")
+	pool.Put("Daffa")
+	pool.Put("Ramadhan")
+
+	for i := 0; i < 10; i++ {
+		go func() {
+			data := pool.Get()
+			fmt.Println(data)
+			pool.Put(data)
+		}()
+	}
+
+	time.Sleep(11 * time.Second)
+
+	fmt.Println("selesai")
+}
