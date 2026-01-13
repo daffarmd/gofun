@@ -143,6 +143,45 @@ Dalam Go Scheduler dikenal tiga komponen utama:
 * Sederhananya, design pattern Pool ini digunakan untuk menyimpan data, selanjutnya untuk menggunakan datanya, kita bisa mengambil dari Pool, dan setelah selesai menggunakan datanya, kita bisa menyimpan kembali ke Pool nya
 * Implementasi Pool di Go-Lang ini sudah aman dari problem race condition
 
+# Map
+* Go-Lang memiliki sebuah struct beranama sync.Map
+* Map ini mirip Go-Lang map, namun yang membedakan, Map ini aman untuk menggunaan concurrent menggunakan goroutine
+* Ada beberapa function yang bisa kita gunakan di Map :
+* Store(key, value) untuk menyimpan data ke Map
+* Load(key) untuk mengambil data dari Map menggunakan key
+* Delete(key) untuk menghapus data di Map menggunakan key
+* Range(function(key, value)) digunakan untuk melakukan iterasi seluruh data di Map
+
+
+# Atomic
+* Go-Lang memiliki package yang bernama sync/atomic
+* Atomic merupakan package yang digunakan untuk menggunakan data primitive secara aman pada proses concurrent
+* Contohnya sebelumnya kita telah menggunakan Mutex untuk melakukan locking ketika ingin menaikkan angka di counter. Hal ini * sebenarnya bisa digunakan menggunakan Atomic package
+* Ada banyak sekali function di atomic package, kita bisa eksplore sendiri di halaman dokumentasinya
+* https://golang.org/pkg/sync/atomic/ 
+
+# Timer
+* Timer adalah representasi satu kejadian
+* Ketika waktu timer sudah expire, maka event akan dikirim ke dalam channel
+* Untuk membuat Timer kita bisa menggunakan time.NewTimer(duration)
+
+# time.After()
+* Kadang kita hanya butuh channel nya saja, tidak membutuhkan data Timer nya
+* Untuk melakukan hal itu kita bisa menggunakan function time.After(duration)
+
+# time.AfterFunc()
+* Kadang ada kebutuhan kita ingin menjalankan sebuah function dengan delay waktu tertentu
+* Kita bisa memanfaatkan Timer dengan menggunakan function time.AfterFunc()
+* Kita tidak perlu lagi menggunakan channel nya, cukup kirim kan function yang akan dipanggil ketika Timer mengirim kejadiannya
+
+# time.Ticker()
+* Ticker adalah representasi kejadian yang berulang
+* Ketika waktu ticker sudah expire, maka event akan dikirim ke dalam channel
+* Untuk membuat ticker, kita bisa menggunakan time.NewTicker(duration)
+* Untuk menghentikan ticker, kita bisa menggunakan Ticker.Stop()
+
+
+
 
 
 
