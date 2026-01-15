@@ -180,6 +180,19 @@ Dalam Go Scheduler dikenal tiga komponen utama:
 * Untuk membuat ticker, kita bisa menggunakan time.NewTicker(duration)
 * Untuk menghentikan ticker, kita bisa menggunakan Ticker.Stop()
 
+# GOMAXPROCS
+* Sebelumnya diawal kita sudah bahas bahwa goroutine itu sebenarnya dijalankan di dalam Thread
+* Pertanyaannya, seberapa banyak Thread yang ada di Go-Lang ketika aplikasi kita berjalan?
+* Untuk mengetahui berapa jumlah Thread, kita bisa menggunakan GOMAXPROCS, yaitu sebuah function di * package runtime yang bisa kita gunakan untuk mengubah jumlah thread atau mengambil jumlah thread
+* Secara default, jumlah thread di Go-Lang itu sebanyak jumlah CPU di komputer kita. 
+* Kita juga bisa melihat berapa jumlah CPU kita dengan menggunakan function runtime.NumCpu()
+# GOMAXPROCS PERINGATAN
+* Menambah jumlah thread tidak berarti membuat aplikasi kita menjadi lebih cepat
+* Karena pada saat yang sama, 1 CPU hanya akan menjalankan  1 goroutine dengan 1 thread
+* Oleh karena ini, jika ingin menambah throughput aplikasi, disarankan lakukan vertical scaling (dengan menambah jumlah CPU) atau horizontal scaling (menambah node baru)
+
+
+
 
 
 
