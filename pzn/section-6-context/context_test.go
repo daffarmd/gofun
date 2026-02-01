@@ -3,7 +3,9 @@ package section6context
 import (
 	"context"
 	"fmt"
+	"runtime"
 	"testing"
+	"time"
 )
 
 func TestContext(t *testing.T) {
@@ -37,4 +39,73 @@ func TestContextWithValue(t *testing.T) {
 	// GET VALUE
 	fmt.Println("Get Value Context D:", ctxD.Value("c"))
 
+}
+
+// GOROUTINE LEAK
+func CreateCounter() chan int {
+	destination := make(chan int)
+
+	go func() {
+		defer close(destination)
+		counter := 1
+		for {
+			destination <- counter
+			counter++
+		}
+	}()
+
+	return destination
+}
+
+func CreateCounterCancel(ctx context.Context) chan int {
+	destination := make(chan int)
+
+	go func() {
+		defer close(destination)
+		counter := 1
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+				destination <- counter
+				counter++
+			}
+		}
+	}()
+
+	return destination
+}
+
+func TestContextWithCancelLeak(t *testing.T) {
+	fmt.Println("Jumlah Goroutine Awal: ", runtime.NumGoroutine())
+
+	destination := CreateCounter()
+	for n := range destination {
+		fmt.Println("Counter : ", n)
+		if n == 10 {
+			break
+		}
+	}
+
+	fmt.Println("Jumlah Goroutine Akhir: ", runtime.NumGoroutine())
+}
+
+func TestContextWithCancel(t *testing.T) {
+	fmt.Println("Jumlah Goroutine Awal: ", runtime.NumGoroutine())
+	parent := context.Background()
+	ctx, cancel := context.WithCancel(parent)
+
+	destination := CreateCounterCancel(ctx)
+	for n := range destination {
+		fmt.Println("Counter : ", n)
+		if n == 10 {
+			break
+		}
+	}
+	cancel()
+
+	time.Sleep(1 * time.Second) // menunggu semua proses selesai
+
+	fmt.Println("Jumlah Goroutine Akhir: ", runtime.NumGoroutine())
 }
