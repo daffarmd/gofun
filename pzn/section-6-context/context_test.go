@@ -109,3 +109,56 @@ func TestContextWithCancel(t *testing.T) {
 
 	fmt.Println("Jumlah Goroutine Akhir: ", runtime.NumGoroutine())
 }
+
+func CreateCounterTimeout(ctx context.Context) chan int {
+	destination := make(chan int)
+
+	go func() {
+		defer close(destination)
+		counter := 1
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+				destination <- counter
+				counter++
+				time.Sleep(1 * time.Second) // simulasi slow
+			}
+		}
+	}()
+
+	return destination
+}
+
+func TestContextWithTimeout(t *testing.T) {
+	fmt.Println("Jumlah Goroutine Awal: ", runtime.NumGoroutine())
+	parent := context.Background()
+	ctx, cancel := context.WithTimeout(parent, 10*time.Second)
+	defer cancel()
+
+	destination := CreateCounterTimeout(ctx)
+	for n := range destination {
+		fmt.Println("Counter : ", n) // looping unlimited
+	}
+
+	time.Sleep(1 * time.Second) // menunggu semua proses selesai
+
+	fmt.Println("Jumlah Goroutine Akhir: ", runtime.NumGoroutine())
+}
+
+func TestContextWithDeadline(t *testing.T) {
+	fmt.Println("Jumlah Goroutine Awal: ", runtime.NumGoroutine())
+	parent := context.Background()
+	ctx, cancel := context.WithDeadline(parent, time.Now().Add(5*time.Second))
+	defer cancel()
+
+	destination := CreateCounterTimeout(ctx)
+	for n := range destination {
+		fmt.Println("Counter : ", n) // looping unlimited
+	}
+
+	time.Sleep(1 * time.Second) // menunggu semua proses selesai
+
+	fmt.Println("Jumlah Goroutine Akhir: ", runtime.NumGoroutine())
+}
