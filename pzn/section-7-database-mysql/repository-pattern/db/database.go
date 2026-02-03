@@ -8,7 +8,9 @@ import (
 )
 
 func GetConnection() *sql.DB {
-	db, err := sql.Open("postgres", "devaja:1q2w3e4r@tcp(127.0.0.1:5432)/gofun")
+	dsn := "postgres://daf-devs:1q2w3e4r@127.0.0.1:5432/gofun?sslmode=disable"
+
+	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		panic(err)
 	}
