@@ -2,9 +2,22 @@ package db
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"testing"
+	"time"
 )
+
+type Customer struct {
+	ID        string
+	Name      string
+	Email     sql.NullString
+	Balance   int
+	Rating    float64
+	CreatedAt time.Time
+	BirthDate time.Time
+	Married   bool
+}
 
 func TestInserExecCtx(t *testing.T) {
 	db := GetConnection()
@@ -34,13 +47,14 @@ func TestUpdateExecCtx(t *testing.T) {
 
 	fmt.Println("Update Data Success")
 }
+
 func TestQuerySelect(t *testing.T) {
 	db := GetConnection()
 	defer db.Close()
 
 	ctx := context.Background()
 
-	sqlSelect := "SELECT id, name FROM customer"
+	sqlSelect := "SELECT id, name, email, balance, rating, created_at, birth_date, married FROM customer"
 	rows, err := db.QueryContext(ctx, sqlSelect)
 	if err != nil {
 		panic(err)
@@ -48,15 +62,66 @@ func TestQuerySelect(t *testing.T) {
 
 	defer rows.Close()
 
+	var result Customer
+
 	for rows.Next() {
-		var id, name string
-		err = rows.Scan(&id, &name)
+		err = rows.Scan(
+			&result.ID,
+			&result.Name,
+			&result.Email,
+			&result.Balance,
+			&result.Rating,
+			&result.CreatedAt,
+			&result.BirthDate,
+			&result.Married,
+		)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println("id: ", id)
-		fmt.Println("name: ", name)
+		fmt.Println("id     :", result.ID)
+		fmt.Println("name   :", result.Name)
+		if result.Email.Valid {
+			fmt.Println("email  :", result.Email.String)
+		}
+		fmt.Println("balance:", result.Balance)
+		fmt.Println("rating :", result.Rating)
+		fmt.Println("married:", result.Married)
+		fmt.Println("BirthDate:", result.BirthDate)
+		fmt.Println("CreatedAt:", result.CreatedAt)
+		fmt.Println("-----")
 	}
 
 	fmt.Println("Select Data Success")
+}
+
+func TestQuerySelectParam(t *testing.T) {
+	db := GetConnection()
+	defer db.Close()
+
+	ctx := context.Background()
+
+	usr := "admin'; #"
+	password := "admin"
+	fmt.Println(usr)
+	fmt.Println(password)
+
+	sqlSelect := "SELECT username FROM usr_user WHERE username = $1 AND password = $2"
+	fmt.Println(sqlSelect)
+	rows, err := db.QueryContext(ctx, sqlSelect, usr, password)
+	if err != nil {
+		panic(err)
+	}
+	defer rows.Close()
+
+	if rows.Next() {
+		var username string
+		err := rows.Scan(&username)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Printf("Hai %s Login kamu berhasil\n", username)
+	} else {
+		fmt.Println("Gagal Login")
+	}
+
 }
