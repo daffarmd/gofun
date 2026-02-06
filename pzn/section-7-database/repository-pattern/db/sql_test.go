@@ -125,3 +125,24 @@ func TestQuerySelectParam(t *testing.T) {
 	}
 
 }
+
+func TestLastId(t *testing.T) {
+	db := GetConnection()
+	defer db.Close()
+
+	ctx := context.Background()
+
+	sqlInsert := `
+		INSERT INTO comment (username, comment)
+		VALUES ($1, $2)
+		RETURNING id
+	`
+
+	var lastID int
+	err := db.QueryRowContext(ctx, sqlInsert, "test", "test").Scan(&lastID)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Insert Data Success", lastID)
+}
