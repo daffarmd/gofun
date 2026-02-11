@@ -101,7 +101,7 @@ func TestQuerySelectParam(t *testing.T) {
 
 	ctx := context.Background()
 
-	usr := "admin'; #"
+	usr := "admin"
 	password := "admin"
 	fmt.Println(usr)
 	fmt.Println(password)
