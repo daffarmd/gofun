@@ -19,7 +19,7 @@ func ResponseCode(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func Test(t *testing.T) {
+func TestRcode(t *testing.T) {
 	request := httptest.NewRequest(http.MethodGet, "http://localhost:7000?name=Test", nil)
 	recorder := httptest.NewRecorder()
 
