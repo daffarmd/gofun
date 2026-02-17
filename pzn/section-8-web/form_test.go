@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/daffarmd/gofun/pzn/section-8-web/helper"
+	"github.com/daffarmd/gofun/helper"
 )
 
 func FormPost(w http.ResponseWriter, r *http.Request) {

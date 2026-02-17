@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/daffarmd/gofun/pzn/section-8-web/helper"
+	"github.com/daffarmd/gofun/helper"
 )
 
 func SetCookie(w http.ResponseWriter, r *http.Request) {
