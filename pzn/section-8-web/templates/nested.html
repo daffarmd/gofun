@@ -7,8 +7,8 @@
 </head>
 <body>
     {{/* Contoh Komentar */}}
-    User : {{with .User}} <br>
-    Nama : {{.Nama}} <br>
+    {{with.User}} 
+    Nama : {{.Nama}} 
     Email : {{.Email}}
     {{end}}
 </body>
