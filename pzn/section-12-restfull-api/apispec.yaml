@@ -1,0 +1,164 @@
+openapi: '3.0.3'
+info: 
+  title: API Boilerplate
+  description: 'Restfull Api Boilerplate'
+  version: '1.0.0'
+servers:
+  - url: http://localhost:3000/api
+paths:
+  /data:  
+    get:
+      security:
+        - DataAuth: []
+      
+      tags:
+        - Data Api
+      description: List All Data
+      responses:
+        '200':
+          description: Success,
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                  status:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Data'
+    post:
+      security:
+        - DataAuth: []
+      tags:
+        - Add Data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsertOrUpdate'
+      responses:
+        '200':
+          description: Success,
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                  status:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Data'
+  /data/{dataId}:
+    get:
+      security:
+        - DataAuth: []
+      tags:
+        - Data Api Get Id
+      summary: Data Detail
+      description: Data Detail
+      parameters:
+        - name: "dataId"
+          in: "path"
+          description: "dataId"
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Success,
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                  status:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Data'
+    put:
+      security:
+        - DataAuth: []
+      tags:
+        - Data Api Get Id
+      summary: Data Update
+      description: Data Update
+      parameters:
+        - name: "dataId"
+          in: "path"
+          description: "dataId"
+          required: true
+          schema:
+            type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InsertOrUpdate'
+      responses:
+        '200':
+          description: Success,
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                  status:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/Data'
+    delete:
+      security:
+        - DataAuth: []
+      tags:
+        - Data Api Get Id
+      summary: Data Delete
+      description: Data Delete
+      parameters:
+        - name: "dataId"
+          in: "path"
+          description: "dataId"
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Success,
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                  status:
+                    type: string
+
+components:
+  securitySchemes:
+    DataAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: auth for data api
+  schemas:
+   InsertOrUpdate:
+    type: object
+    properties:
+      name:
+          type: string
+   Data:  
+    type: object
+    properties:
+       id:
+         type: number
+       name:
+         type: string
+  
