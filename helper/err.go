@@ -14,3 +14,9 @@ func HttpError(err error, w http.ResponseWriter) {
 		return
 	}
 }
+
+func PanicIfErr(err error) {
+	if err != nil {
+		panic(err)
+	}
+}

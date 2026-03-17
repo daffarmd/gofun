@@ -161,4 +161,6 @@ components:
          type: number
        name:
          type: string
+       status:
+         type: number
   

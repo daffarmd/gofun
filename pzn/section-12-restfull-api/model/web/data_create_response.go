@@ -1,6 +1,6 @@
-package domain
+package web
 
-type Data struct {
+type DataResponse struct {
 	Id     int
 	Name   string
 	Status int
