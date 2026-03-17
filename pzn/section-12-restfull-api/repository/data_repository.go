@@ -8,9 +8,10 @@ import (
 )
 
 type DataRepository interface {
-	Save(ctx context.Context, tx sql.Tx, data domain.Data) domain.Data
-	Update(ctx context.Context, tx sql.Tx, data domain.Data) domain.Data
-	Delete(ctx context.Context, tx sql.Tx, data domain.Data)
-	FindById(ctx context.Context, tx sql.Tx, data int) domain.Data
-	FindAll(ctx context.Context, tx sql.Tx) []domain.Data
+	Create(ctx context.Context, tx *sql.Tx, data domain.Data) domain.Data
+	Update(ctx context.Context, tx *sql.Tx, data domain.Data) domain.Data
+	Delete(ctx context.Context, tx *sql.Tx, data domain.Data)
+	FindById(ctx context.Context, tx *sql.Tx, data int) (domain.Data, error)
+	FindAll(ctx context.Context, tx *sql.Tx) []domain.Data
+	FindAllAsc(ctx context.Context, tx *sql.Tx) []domain.Data
 }
