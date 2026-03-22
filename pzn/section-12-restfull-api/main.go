@@ -10,6 +10,7 @@ import (
 	"github.com/daffarmd/gofun/pzn/section-12-restfull-api/app"
 	"github.com/daffarmd/gofun/pzn/section-12-restfull-api/controller"
 	"github.com/daffarmd/gofun/pzn/section-12-restfull-api/exception"
+	"github.com/daffarmd/gofun/pzn/section-12-restfull-api/middleware"
 	"github.com/daffarmd/gofun/pzn/section-12-restfull-api/repository"
 	"github.com/daffarmd/gofun/pzn/section-12-restfull-api/service"
 	"github.com/go-playground/validator"
@@ -35,7 +36,7 @@ func main() {
 
 	server := http.Server{
 		Addr:    "localhost:3000",
-		Handler: router,
+		Handler: middleware.NewAuthMiddleware(router),
 	}
 
 	log.Println("Running at http://localhost:3000")
