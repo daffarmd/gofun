@@ -102,14 +102,3 @@ func (t *DataControllerImpl) FindAll(w http.ResponseWriter, r *http.Request, par
 
 	helper.WriteResponseBody(w, webResponse)
 }
-
-func (t *DataControllerImpl) FindAllAsc(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-	dataResponse := t.DataService.FindAllAsc(r.Context())
-	webResponse := web.WebResponse{
-		Code:   200,
-		Status: "Success",
-		Data:   dataResponse,
-	}
-
-	helper.WriteResponseBody(w, webResponse)
-}
